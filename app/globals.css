@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=EB+Garamond:ital,wght@1,400..600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --charcoal: #0A0A0A;
+  --cream: #F5F5F3;
+  --accent: #00F5D4;
+  --accent-dim: rgba(0, 245, 212, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--charcoal);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--charcoal);
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+}
+
+/* Custom cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0, 245, 212, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, border-color 0.3s ease;
+}
+
+/* Preloader */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--charcoal);
+  z-index: 99997;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-inner {
+  animation: marquee 22s linear infinite;
+  white-space: nowrap;
+  display: flex;
+}
+
+.marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+/* Thin borders */
+.thin-border-t { border-top: 1px solid rgba(245, 245, 243, 0.08); }
+.thin-border-b { border-bottom: 1px solid rgba(245, 245, 243, 0.08); }
+
+/* Project card hover */
+.project-card .project-img {
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+.project-card:hover .project-img {
+  transform: scale(1.06);
+  filter: grayscale(0%) brightness(1);
+}
+.project-card .project-img {
+  filter: grayscale(50%) brightness(0.85);
+}
+
+/* Accent underline on links */
+.accent-link {
+  position: relative;
+  display: inline-block;
+}
+.accent-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accent-link:hover::after { width: 100%; }
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--accent);
+  z-index: 99996;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Magnetic button */
+.magnetic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.magnetic-btn .btn-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.magnetic-btn:hover .btn-fill {
+  transform: scaleX(1);
+}
+.magnetic-btn .btn-text {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.magnetic-btn:hover .btn-text {
+  color: var(--charcoal);
+}
+
+/* Italic accent style for headlines */
+.italic-accent {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+  text-transform: lowercase;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
